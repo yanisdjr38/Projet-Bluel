@@ -22,7 +22,7 @@ function displayCategories(categories) {
   // Create "All" filter
   const allFilter = document.createElement("button");
   allFilter.textContent = "Tous";
-  allFilter.addEventListener("click", () => initGallery());
+  allFilter.addEventListener("click", () => init());
   categoriesContainer.appendChild(allFilter);
 
   categories.forEach((category) => {
