@@ -1,8 +1,47 @@
-const API_URL = "http://localhost:5678/api/works";
+const WORK_URL = "http://localhost:5678/api/works";
+const CATEGORY_URL = "http://localhost:5678/api/categories";
+
+async function loadCategories() {
+  try {
+    const response = await fetch(CATEGORY_URL);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const categories = await response.json();
+    return categories;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+}
+
+function displayCategories(categories) {
+  const categoriesContainer = document.querySelector(".categories");
+  categoriesContainer.innerHTML = ""; // Clear existing content
+
+  // Create "All" filter
+  const allFilter = document.createElement("button");
+  allFilter.textContent = "Tous";
+  allFilter.addEventListener("click", () => initGallery());
+  categoriesContainer.appendChild(allFilter);
+
+  categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.textContent = category.name;
+    button.addEventListener("click", async () => {
+      const works = await loadGallery();
+      const filteredWorks = works.filter(
+        (work) => work.categoryId === category.id
+      );
+      displayWorks(filteredWorks);
+    });
+    categoriesContainer.appendChild(button);
+  });
+}
 
 async function loadGallery() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(WORK_URL);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -33,9 +72,11 @@ function displayWorks(works) {
   });
 }
 
-async function initGallery() {
+async function init() {
   const works = await loadGallery();
   displayWorks(works);
+  const categories = await loadCategories();
+  displayCategories(categories);
 }
 
-initGallery();
+init();
