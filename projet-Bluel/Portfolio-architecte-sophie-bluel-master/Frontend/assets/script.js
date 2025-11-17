@@ -1,6 +1,16 @@
 const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
 
+// Check if user is logged in
+
+const token = localStorage.getItem("token");
+
+if (token) {
+  document.body.classList.add("logged");
+}
+
+// Load and display categories
+
 async function loadCategories() {
   try {
     const response = await fetch(CATEGORY_URL);
@@ -38,6 +48,7 @@ function displayCategories(categories) {
     categoriesContainer.appendChild(button);
   });
 }
+// Load and display gallery
 
 async function loadGallery() {
   try {
@@ -71,7 +82,7 @@ function displayWorks(works) {
     gallery.appendChild(figure);
   });
 }
-
+// Initialize the page
 async function init() {
   const works = await loadGallery();
   displayWorks(works);

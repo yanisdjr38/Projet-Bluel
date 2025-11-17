@@ -204,7 +204,6 @@ li:hover {
 }
 #portfolio h2 {
   text-align: center;
-  margin-bottom: 1em;
 }
 .gallery {
   width: 100%;
@@ -355,4 +354,28 @@ form a {
 
 form a:hover {
   text-decoration: underline;
+}
+
+.edit-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: black;
+  color: white;
+  height: 59px;
+  width: 100%;
+  padding: 5px;
+}
+
+.edit-section-header {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.edit-section-header i {
+  cursor: pointer;
 }
