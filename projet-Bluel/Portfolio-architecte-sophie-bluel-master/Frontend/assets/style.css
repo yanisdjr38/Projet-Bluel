@@ -356,7 +356,12 @@ form a:hover {
   text-decoration: underline;
 }
 
-.edit-banner {
+.edit-banner,
+.edit-section-header {
+  display: none;
+}
+
+body.logged .edit-banner {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -368,7 +373,7 @@ form a:hover {
   padding: 5px;
 }
 
-.edit-section-header {
+body.logged .edit-section-header {
   display: flex;
   gap: 20px;
   flex-direction: row;
