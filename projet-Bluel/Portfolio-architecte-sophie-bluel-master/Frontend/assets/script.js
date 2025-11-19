@@ -1,14 +1,24 @@
 const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
 
-// Check if user is logged in
+// Check if user is logged in and logout link
 
 const token = localStorage.getItem("token");
+const loginLink = document.getElementById("login-link");
 
 if (token) {
   document.body.classList.add("logged");
+  if (loginLink) {
+    loginLink.querySelector("li").textContent = "logout";
+    loginLink.href = "#";
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      window.location.reload();
+    });
+  }
 }
-
 // Load and display categories
 
 async function loadCategories() {

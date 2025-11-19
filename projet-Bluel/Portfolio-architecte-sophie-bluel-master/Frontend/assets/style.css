@@ -298,6 +298,8 @@ footer nav ul {
   color: #fffef8;
 }
 
+/* Login page styles*/
+
 a {
   text-decoration: none;
   color: inherit;
@@ -356,21 +358,38 @@ form a:hover {
   text-decoration: underline;
 }
 
+/* Edit mode styles */
+
 .edit-banner,
 .edit-section-header {
   display: none;
 }
-
 body.logged .edit-banner {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: black;
-  color: white;
   height: 59px;
-  width: 100%;
-  padding: 5px;
+  background-color: black;
+  color: #fffef8;
+  padding: 10px 0;
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+}
+
+body.logged .edit-button {
+  color: black;
+  border: none;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 60px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+body.logged .edit-button :hover {
+  color: #b1663c;
 }
 
 body.logged .edit-section-header {
@@ -381,6 +400,16 @@ body.logged .edit-section-header {
   align-items: center;
   margin-bottom: 20px;
 }
-.edit-section-header i {
-  cursor: pointer;
+body.logged .edit-section-header i {
+  display: flex;
+  gap: 10px;
+}
+body.logged .edit-section-header p {
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 400;
+}
+
+body.logged .categories {
+  display: none;
 }
