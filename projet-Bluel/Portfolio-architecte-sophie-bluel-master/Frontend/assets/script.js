@@ -114,11 +114,23 @@ function displayModalGallery(works) {
   works.forEach((work) => {
     const figure = document.createElement("figure");
     figure.classList.add("modal-figure");
+
     const img = document.createElement("img");
     img.src = work.imageUrl;
     img.alt = work.title;
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    deleteBtn.dataset.id = work.id;
+
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      console.log("delete id:", work.id);
+    });
+
     figure.appendChild(img);
+    figure.appendChild(deleteBtn);
     modalGallery.appendChild(figure);
   });
 }
