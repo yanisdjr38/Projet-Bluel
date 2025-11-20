@@ -105,10 +105,29 @@ function toggleModal() {
   modalContainer.classList.toggle("active");
 }
 
+//Modal Gallery
+
+function displayModalGallery(works) {
+  const modalGallery = document.querySelector(".modal-gallery");
+  modalGallery.innerHTML = ""; // Clear existing content
+
+  works.forEach((work) => {
+    const figure = document.createElement("figure");
+    figure.classList.add("modal-figure");
+    const img = document.createElement("img");
+    img.src = work.imageUrl;
+    img.alt = work.title;
+
+    figure.appendChild(img);
+    modalGallery.appendChild(figure);
+  });
+}
+
 // Initialize the page
 async function init() {
   const works = await loadGallery();
   displayWorks(works);
+  displayModalGallery(works);
   const categories = await loadCategories();
   displayCategories(categories);
 }

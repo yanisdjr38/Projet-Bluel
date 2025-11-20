@@ -437,7 +437,6 @@ body.logged .modal-container.active {
 .modal {
   width: 100%;
   max-width: 500px;
-  height: 688px;
   padding: 30px;
   border-radius: 10px;
   background: white;
@@ -460,10 +459,10 @@ body.logged .modal-container.active {
 }
 
 .modal h3 {
-  font-family: "Syne";
-  font-weight: 700;
+  font-family: "Work Sans";
+  font-weight: 400;
   font-size: 24px;
-  color: #1d6154;
+  color: black;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -491,4 +490,27 @@ body.logged .modal-container.active {
   padding-top: 30px;
   border-top: 1px solid #b3b3b3;
   border-width: 85%;
+}
+
+/* Modal Gallery Styles */
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-height: 450px;
+  margin-bottom: 20px;
+}
+.modal-gallery img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+.modal-gallery .photo-item {
+  position: relative;
+}
+
+.modal-gallery figure {
+  margin: 0;
+  padding: 0;
 }
