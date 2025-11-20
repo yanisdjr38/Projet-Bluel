@@ -92,6 +92,19 @@ function displayWorks(works) {
     gallery.appendChild(figure);
   });
 }
+
+// modal functionality (if needed) can be added here
+const modalContainer = document.querySelector(".modal-container");
+const modalTriggers = document.querySelectorAll(".modal-trigger");
+
+modalTriggers.forEach((trigger) => {
+  trigger.addEventListener("click", toggleModal);
+});
+
+function toggleModal() {
+  modalContainer.classList.toggle("active");
+}
+
 // Initialize the page
 async function init() {
   const works = await loadGallery();

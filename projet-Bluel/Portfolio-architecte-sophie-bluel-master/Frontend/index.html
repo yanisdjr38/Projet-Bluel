@@ -56,7 +56,23 @@
 		<section id="portfolio">
 			<div class="edit-section-header">
 				<h2>Mes Projets</h2>
-				<button class="edit-button">
+				<div class="modal-container">
+					<div class="modal-overlay modal-trigger"></div>
+					<div class="modal">
+						<button class="close-modal modal-trigger">&times;</button>
+						<h3>Galerie Photo</h3>
+						<div class="modal-gallery">
+							<!-- Les images de la galerie seront insérées ici dynamiquement -->
+						</div>
+						<div class="modal-actions">
+							<button class="add-photo-button">
+								Ajouter une photo
+							</button>
+						</div>
+
+					</div>
+				</div>
+				<button class="edit-button modal-trigger">
 					<i class="fas fa-edit">
 						<p>Modifier </p>
 					</i>
