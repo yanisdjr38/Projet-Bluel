@@ -476,27 +476,23 @@ body.logged .modal-container.active {
 }
 
 /*Modal Add Photo Button Styles*/
-
-.add-photo-button {
+/* Bouton "Ajouter une photo" */
+.open-add-view {
   width: 40%;
   height: 36px;
   border-radius: 60px;
   background-color: var(--color-primary);
-  color: var(--color-background);
-  cursor: pointer;
+  color: #fffef8;
   border: none;
   font-family: "Syne";
   font-weight: 700;
-  font-size: 14px;
-  font-weight: bold;
+  cursor: pointer;
   margin: auto;
-  display: block;
 }
 
-.add-photo-button:hover {
+.open-add-view:hover {
   background-color: var(--color-secondary);
 }
-
 /* Modal Actions Styles */
 
 .modal-actions {
@@ -521,9 +517,6 @@ body.logged .modal-container.active {
   height: auto;
   object-fit: cover;
 }
-.modal-gallery .photo-item {
-  position: relative;
-}
 
 .modal-gallery figure {
   margin: 0;
@@ -531,20 +524,14 @@ body.logged .modal-container.active {
   position: relative;
 }
 /* Close button styles */
-
-.fa-solid fa-xmark {
-  color: black;
+.close-modal i {
+  color: var(--color-text);
 }
 
-.fa-solid fa-xmark:hover {
-  color: #b1663c;
+.close-modal i:hover {
+  color: var(--color-secondary);
 }
 
-.close-modal {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-}
 /* Delete button styles */
 
 .delete-btn {
@@ -553,7 +540,7 @@ body.logged .modal-container.active {
   right: 5px;
   width: 22px;
   height: 22px;
-  background: black;
+  background: var(--color-text);
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -565,4 +552,56 @@ body.logged .modal-container.active {
 .delete-btn i {
   color: white;
   font-size: 12px;
+}
+/*Modal Add Photo Form Styles*/
+/* ----- Vues de modale ----- */
+
+.modal-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Bouton retour */
+.back-to-gallery {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  width: 30px;
+}
+
+/* Bouton "Ajouter une photo" */
+.open-add-view {
+  width: 40%;
+  height: 36px;
+  border-radius: 60px;
+  background-color: var(--color-primary);
+  color: #fffef8;
+  border: none;
+  font-family: "Syne";
+  font-weight: 700;
+  cursor: pointer;
+  margin: auto;
+}
+
+.validate-add {
+  width: 50%;
+  height: 36px;
+  margin: 20px auto 0;
+  border-radius: 60px;
+  border: none;
+  background-color: #a7a7a7;
+  color: white;
+  font-family: "Syne";
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.validate-add.active {
+  background-color: var(--color-primary);
 }

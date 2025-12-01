@@ -123,7 +123,7 @@ function displayModalGallery(works) {
     deleteBtn.classList.add("delete-btn");
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
     deleteBtn.dataset.id = work.id;
-
+    // Delete work functionality
     deleteBtn.addEventListener("click", (e) => {
       const workId = e.currentTarget.dataset.id;
       fetch(`${WORK_URL}/${workId}`, {
@@ -152,6 +152,25 @@ function displayModalGallery(works) {
     modalGallery.appendChild(figure);
   });
 }
+
+// Modal View
+
+const galleryView = document.querySelector(".modal-gallery-view");
+const addView = document.querySelector(".modal-add-view");
+const openAddBtn = document.querySelector(".open-add-view");
+const backToGalleryBtn = document.querySelector(".back-to-gallery");
+
+// Aller sur la vue "Ajouter une photo"
+openAddBtn.addEventListener("click", () => {
+  galleryView.classList.add("hidden");
+  addView.classList.remove("hidden");
+});
+
+// Revenir sur la vue "Galerie"
+backToGalleryBtn.addEventListener("click", () => {
+  addView.classList.add("hidden");
+  galleryView.classList.remove("hidden");
+});
 
 // Initialize
 async function init() {
