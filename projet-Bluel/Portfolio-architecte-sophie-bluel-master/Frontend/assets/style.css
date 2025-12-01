@@ -91,6 +91,14 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
+/*root element display for older browsers*/
+:root {
+  --color-primary: #1d6154;
+  --color-secondary: #b1663c;
+  --color-background: #fffef8;
+  --color-text: #000000;
+}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -107,7 +115,7 @@ section {
 }
 body {
   line-height: 1;
-  background-color: #fffef8;
+  background-color: var(--color-background);
 }
 ol,
 ul {
@@ -150,7 +158,7 @@ h1 {
   font-family: "Syne";
   font-size: 22px;
   font-weight: 800;
-  color: #b1663c;
+  color: var(--color-secondary);
 }
 
 h1 > span {
@@ -163,7 +171,7 @@ h2 {
   font-family: "Syne";
   font-weight: 700;
   font-size: 30px;
-  color: #1d6154;
+  color: var(--color-primary);
 }
 nav ul {
   display: flex;
@@ -173,11 +181,11 @@ nav ul {
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
-  color: black;
+  color: var(--color-text);
 }
 
 li:hover {
-  color: #b1663c;
+  color: var(--color-secondary);
 }
 #introduction {
   display: flex;
@@ -251,7 +259,7 @@ input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
-  background-color: #1d6154;
+  background-color: var(--color-primary);
   margin: 2em auto;
   width: 180px;
   text-align: center;
@@ -284,7 +292,7 @@ footer nav ul {
   font-family: "Syne";
   font-weight: 700 bold;
   padding: 10px 20px;
-  border: 1px solid #1d6154;
+  border: 1px solid var(--color-primary);
   border-radius: 60px;
   background-color: transparent;
   color: #1d6154;
@@ -370,7 +378,7 @@ body.logged .edit-banner {
   align-items: center;
   gap: 10px;
   height: 59px;
-  background-color: black;
+  background-color: var(--color-text);
   color: #fffef8;
   padding: 10px 0;
   font-family: "Work Sans";
@@ -379,7 +387,7 @@ body.logged .edit-banner {
 }
 
 body.logged .edit-button {
-  color: black;
+  color: var(--color-text);
   border: none;
   align-items: center;
   padding: 10px 20px;
@@ -389,7 +397,7 @@ body.logged .edit-button {
 }
 
 body.logged .edit-button :hover {
-  color: #b1663c;
+  color: var(--color-secondary);
 }
 
 body.logged .edit-section-header {
@@ -462,17 +470,19 @@ body.logged .modal-container.active {
   font-family: "Work Sans";
   font-weight: 400;
   font-size: 24px;
-  color: black;
+  color: var(--color-text);
   text-align: center;
   margin-bottom: 20px;
 }
+
+/*Modal Add Photo Button Styles*/
 
 .add-photo-button {
   width: 40%;
   height: 36px;
   border-radius: 60px;
-  background-color: #1d6154;
-  color: #fffef8;
+  background-color: var(--color-primary);
+  color: var(--color-background);
   cursor: pointer;
   border: none;
   font-family: "Syne";
@@ -484,8 +494,10 @@ body.logged .modal-container.active {
 }
 
 .add-photo-button:hover {
-  background-color: #145043;
+  background-color: var(--color-secondary);
 }
+
+/* Modal Actions Styles */
 
 .modal-actions {
   display: flex;
@@ -518,6 +530,22 @@ body.logged .modal-container.active {
   padding: 0;
   position: relative;
 }
+/* Close button styles */
+
+.fa-solid fa-xmark {
+  color: black;
+}
+
+.fa-solid fa-xmark:hover {
+  color: #b1663c;
+}
+
+.close-modal {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+/* Delete button styles */
 
 .delete-btn {
   position: absolute;
