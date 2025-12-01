@@ -1,7 +1,7 @@
 const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
 
-// Check if user is logged in and logout link
+// Check logged in and logout link
 
 const token = localStorage.getItem("token");
 const loginLink = document.getElementById("login-link");
@@ -37,9 +37,9 @@ async function loadCategories() {
 
 function displayCategories(categories) {
   const categoriesContainer = document.querySelector(".categories");
-  categoriesContainer.innerHTML = ""; // Clear existing content
+  categoriesContainer.innerHTML = "";
 
-  // Create "All" filter
+  // "All" filter
   const allFilter = document.createElement("button");
   allFilter.textContent = "Tous";
   allFilter.addEventListener("click", () => init());
@@ -76,7 +76,7 @@ async function loadGallery() {
 
 function displayWorks(works) {
   const gallery = document.querySelector(".gallery");
-  gallery.innerHTML = ""; // Clear existing content
+  gallery.innerHTML = "";
 
   works.forEach((work) => {
     const figure = document.createElement("figure");
@@ -93,7 +93,7 @@ function displayWorks(works) {
   });
 }
 
-// modal functionality (if needed) can be added here
+// modal functionality
 const modalContainer = document.querySelector(".modal-container");
 const modalTriggers = document.querySelectorAll(".modal-trigger");
 
@@ -109,7 +109,7 @@ function toggleModal() {
 
 function displayModalGallery(works) {
   const modalGallery = document.querySelector(".modal-gallery");
-  modalGallery.innerHTML = ""; // Clear existing content
+  modalGallery.innerHTML = "";
 
   works.forEach((work) => {
     const figure = document.createElement("figure");
@@ -125,9 +125,27 @@ function displayModalGallery(works) {
     deleteBtn.dataset.id = work.id;
 
     deleteBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      console.log("delete id:", work.id);
+      const workId = e.currentTarget.dataset.id;
+      fetch(`${WORK_URL}/${workId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          // Remove the figure from the modal gallery
+          figure.remove();
+          // Also refresh the main gallery
+          init();
+        })
+        .catch((error) => {
+          console.error("Error deleting work:", error);
+        });
     });
+    //Add work to modal gallery
 
     figure.appendChild(img);
     figure.appendChild(deleteBtn);
@@ -135,7 +153,7 @@ function displayModalGallery(works) {
   });
 }
 
-// Initialize the page
+// Initialize
 async function init() {
   const works = await loadGallery();
   displayWorks(works);

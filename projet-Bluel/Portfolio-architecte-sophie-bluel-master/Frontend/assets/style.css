@@ -483,6 +483,10 @@ body.logged .modal-container.active {
   display: block;
 }
 
+.add-photo-button:hover {
+  background-color: #145043;
+}
+
 .modal-actions {
   display: flex;
   justify-content: space-between;
