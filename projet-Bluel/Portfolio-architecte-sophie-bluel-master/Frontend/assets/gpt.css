@@ -92,13 +92,6 @@ video {
   vertical-align: baseline;
 }
 
-/*root element display for older browsers*/
-:root {
-  --color-primary: #1d6154;
-  --color-secondary: #b1663c;
-  --color-background: #fffef8;
-  --color-text: #000000;
-}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -113,18 +106,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
-  background-color: var(--color-background);
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -132,25 +128,48 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-/** end reset css**/
+
+/* =========================
+   VARIABLES
+   ========================= */
+
+:root {
+  --color-primary: #1d6154;
+  --color-secondary: #b1663c;
+  --color-background: #fffef8;
+  --color-text: #000000;
+}
+
+/* =========================
+   LAYOUT GLOBAL
+   ========================= */
+
 body {
   max-width: 1140px;
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: var(--color-background);
 }
+
 header {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
+
+/* =========================
+   TITRES
+   ========================= */
 
 h1 {
   display: flex;
@@ -173,11 +192,17 @@ h2 {
   font-size: 30px;
   color: var(--color-primary);
 }
+
+/* =========================
+   NAVIGATION
+   ========================= */
+
 nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
 }
+
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
@@ -187,13 +212,25 @@ nav li {
 li:hover {
   color: var(--color-secondary);
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================
+   INTRODUCTION
+   ========================= */
+
 #introduction {
   display: flex;
   align-items: center;
 }
+
 #introduction figure {
   flex: 1;
 }
+
 #introduction img {
   display: block;
   margin: auto;
@@ -203,6 +240,7 @@ li:hover {
 #introduction article {
   flex: 1;
 }
+
 #introduction h2 {
   margin-bottom: 1em;
 }
@@ -210,9 +248,15 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+
+/* =========================
+   PORTFOLIO / GALLERY
+   ========================= */
+
 #portfolio h2 {
   text-align: center;
 }
+
 .gallery {
   width: 100%;
   display: grid;
@@ -224,16 +268,24 @@ li:hover {
 .gallery img {
   width: 100%;
 }
+
+/* =========================
+   CONTACT
+   ========================= */
+
 #contact {
   width: 50%;
   margin: auto;
 }
+
 #contact > * {
   text-align: center;
 }
+
 #contact h2 {
   margin-bottom: 20px;
 }
+
 #contact form {
   text-align: left;
   margin-top: 30px;
@@ -247,9 +299,11 @@ li:hover {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
   margin: 2em 0 1em 0;
 }
+
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -266,6 +320,10 @@ input[type="submit"] {
   border-radius: 60px;
 }
 
+/* =========================
+   FOOTER
+   ========================= */
+
 footer {
   width: 100%;
   height: 60px;
@@ -279,7 +337,9 @@ footer nav ul {
   margin: 2em;
 }
 
-/* Boutons des catégories de projets */
+/* =========================
+   CATEGORIES (BOUTONS)
+   ========================= */
 
 .categories {
   display: flex;
@@ -306,12 +366,9 @@ footer nav ul {
   color: #fffef8;
 }
 
-/* Login page styles*/
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
+/* =========================
+   LOGIN PAGE
+   ========================= */
 
 .login-section {
   display: flex;
@@ -370,12 +427,15 @@ form a:hover {
   text-decoration: underline;
 }
 
-/* Edit mode styles */
+/* =========================
+   EDIT MODE
+   ========================= */
 
 .edit-banner,
 .edit-section-header {
   display: none;
 }
+
 body.logged .edit-banner {
   display: flex;
   justify-content: center;
@@ -412,10 +472,12 @@ body.logged .edit-section-header {
   align-items: center;
   margin-bottom: 20px;
 }
+
 body.logged .edit-section-header i {
   display: flex;
   gap: 10px;
 }
+
 body.logged .edit-section-header p {
   font-family: "Work Sans";
   font-size: 14px;
@@ -426,7 +488,9 @@ body.logged .categories {
   display: none;
 }
 
-/* modal styles */
+/* =========================
+   MODALE (CONTAINER / OVERLAY)
+   ========================= */
 
 body.logged .modal-container {
   display: none;
@@ -439,6 +503,7 @@ body.logged .modal-container {
 body.logged .modal-container.active {
   display: block;
 }
+
 .modal-overlay {
   position: absolute;
   width: 100%;
@@ -459,6 +524,8 @@ body.logged .modal-container.active {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+/* Bouton fermeture modale */
+
 .close-modal {
   width: 95%;
   display: flex;
@@ -470,6 +537,16 @@ body.logged .modal-container.active {
   cursor: pointer;
 }
 
+.close-modal i {
+  color: var(--color-text);
+}
+
+.close-modal i:hover {
+  color: var(--color-secondary);
+}
+
+/* Titre modale */
+
 .modal h3 {
   font-family: "Work Sans";
   font-weight: 400;
@@ -479,8 +556,20 @@ body.logged .modal-container.active {
   margin-bottom: 20px;
 }
 
-/*Modal Add Photo Button Styles*/
+/* =========================
+   MODALE - ACTIONS
+   ========================= */
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid #b3b3b3;
+}
+
 /* Bouton "Ajouter une photo" */
+
 .open-add-view {
   width: 40%;
   height: 36px;
@@ -497,17 +586,11 @@ body.logged .modal-container.active {
 .open-add-view:hover {
   background-color: var(--color-secondary);
 }
-/* Modal Actions Styles */
 
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 30px;
-  border-top: 1px solid #b3b3b3;
-}
+/* =========================
+   MODALE - GALLERIE
+   ========================= */
 
-/* Modal Gallery Styles */
 .modal-gallery {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -515,6 +598,7 @@ body.logged .modal-container.active {
   max-height: 450px;
   margin-bottom: 20px;
 }
+
 .modal-gallery img {
   width: 100%;
   height: auto;
@@ -526,16 +610,8 @@ body.logged .modal-container.active {
   padding: 0;
   position: relative;
 }
-/* Close button styles */
-.close-modal i {
-  color: var(--color-text);
-}
 
-.close-modal i:hover {
-  color: var(--color-secondary);
-}
-
-/* Delete button styles */
+/* Bouton suppression (poubelle) */
 
 .delete-btn {
   position: absolute;
@@ -557,7 +633,9 @@ body.logged .modal-container.active {
   font-size: 12px;
 }
 
-/* ----- Vues de modale ----- */
+/* =========================
+   MODALE - VUES (GÉNÉRIQUE)
+   ========================= */
 
 .modal-view {
   display: flex;
@@ -570,6 +648,7 @@ body.logged .modal-container.active {
 }
 
 /* Bouton retour */
+
 .back-to-gallery {
   background: transparent;
   border: none;
@@ -578,7 +657,10 @@ body.logged .modal-container.active {
   width: 30px;
 }
 
-/* Form styles */
+/* =========================
+   MODALE - FORMULAIRE "AJOUT PHOTO"
+   ========================= */
+
 #add-photo-form {
   display: flex;
   flex-direction: column;
@@ -592,6 +674,9 @@ body.logged .modal-container.active {
   display: flex;
   flex-direction: column;
 }
+
+/* Zone upload (bleu clair) */
+
 .upload-photo-container {
   display: flex;
   width: 420px;
@@ -603,16 +688,19 @@ body.logged .modal-container.active {
   gap: 10px;
   border-radius: 3px;
 }
-/* Photo upload button styles */
+
+/* Input file */
 
 input#photo {
   width: 100%;
   height: 100%;
-  opacity: 0%;
+  opacity: 0;
   position: relative;
   top: -10px;
   cursor: pointer;
 }
+
+/* Bouton upload */
 
 button.upload-btn {
   width: 173px;
@@ -641,9 +729,8 @@ button.upload-btn:hover {
   cursor: pointer;
 }
 
-/*title and category form styles*/
+/* Titre et catégorie */
 
-/* Title and Category input styles */
 #title,
 #category {
   width: 420px;
@@ -657,7 +744,7 @@ button.upload-btn:hover {
   color: var(--color-text);
 }
 
-/* Validate button styles */
+/* Bouton validation */
 
 .validate-container {
   width: 85%;
@@ -686,7 +773,10 @@ button.upload-btn:hover {
   background-color: var(--color-secondary);
 }
 
-/* Preview styles */
+/* =========================
+   MODALE - PREVIEW IMAGE
+   ========================= */
+
 .preview {
   display: none;
   width: 100%;
