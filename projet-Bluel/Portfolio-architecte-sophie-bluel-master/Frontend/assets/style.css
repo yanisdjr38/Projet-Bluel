@@ -593,23 +593,6 @@ body.logged .modal-container.active {
   margin: auto;
 }
 
-.validate-add {
-  width: 50%;
-  height: 36px;
-  margin: 20px auto 0;
-  border-radius: 60px;
-  border: none;
-  background-color: #a7a7a7;
-  color: white;
-  font-family: "Syne";
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.validate-add.active {
-  background-color: var(--color-primary);
-}
-
 /* Form styles */
 #add-photo-form {
   display: flex;
@@ -687,4 +670,33 @@ button.upload-btn:hover {
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text);
+}
+
+/* Validate button styles */
+
+.validate-container {
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #b3b3b3;
+  cursor: pointer;
+}
+
+.validate-add {
+  width: 40%;
+  height: 36px;
+  border-radius: 60px;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  border: none;
+  font-family: "Syne";
+  font-weight: 700;
+  cursor: pointer;
+  margin: auto;
+}
+
+.validate-add:hover {
+  background-color: var(--color-secondary);
 }
