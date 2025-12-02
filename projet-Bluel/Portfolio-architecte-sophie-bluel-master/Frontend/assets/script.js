@@ -182,6 +182,27 @@ backToGalleryBtn.addEventListener("click", () => {
   galleryView.classList.remove("hidden");
 });
 
+// Fonction Preview Image
+
+const fileInput = document.getElementById("photo");
+const preview = document.querySelector(".preview");
+const icon = document.querySelector(".upload-icon");
+const btn = document.querySelector(".upload-btn");
+const instructions = document.querySelector(".photo-instructions");
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+
+  if (!file) return;
+
+  preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="preview">`;
+  preview.style.display = "flex";
+
+  icon.style.display = "none";
+  btn.style.display = "none";
+  instructions.style.display = "none";
+});
+
 // Initialize
 async function init() {
   const works = await loadGallery();

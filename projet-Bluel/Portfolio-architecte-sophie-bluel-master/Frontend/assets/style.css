@@ -700,3 +700,20 @@ button.upload-btn:hover {
 .validate-add:hover {
   background-color: var(--color-secondary);
 }
+
+/* Preview styles */
+.preview {
+  display: none;
+  width: 100%;
+  height: 169px;
+  background: #e8f1f6;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
