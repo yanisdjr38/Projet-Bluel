@@ -290,7 +290,7 @@ footer nav ul {
 
 .categories button {
   font-family: "Syne";
-  font-weight: 700 bold;
+  font-weight: 700;
   padding: 10px 20px;
   border: 1px solid var(--color-primary);
   border-radius: 60px;
@@ -344,17 +344,21 @@ input#password {
   border: none;
 }
 
-form button {
+.login-btn {
   width: 50%;
   height: 36px;
   border-radius: 60px;
   font-family: "Syne";
   font-weight: 700;
-  background-color: #1d6154;
+  background-color: var(--color-primary);
   color: #fffef8;
   cursor: pointer;
   align-self: center;
   border: none;
+}
+
+.login-btn:hover {
+  background-color: var(--color-secondary);
 }
 
 form a {
@@ -396,7 +400,7 @@ body.logged .edit-button {
   cursor: pointer;
 }
 
-body.logged .edit-button :hover {
+body.logged .edit-button:hover {
   color: var(--color-secondary);
 }
 
@@ -553,7 +557,7 @@ body.logged .modal-container.active {
   color: white;
   font-size: 12px;
 }
-/*Modal Add Photo Form Styles*/
+
 /* ----- Vues de modale ----- */
 
 .modal-view {
@@ -605,3 +609,19 @@ body.logged .modal-container.active {
 .validate-add.active {
   background-color: var(--color-primary);
 }
+
+/* Form styles */
+#add-photo-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+/* Photo upload button styles */

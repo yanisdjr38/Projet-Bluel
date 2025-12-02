@@ -37,7 +37,17 @@ async function loadCategories() {
 
 function displayCategories(categories) {
   const categoriesContainer = document.querySelector(".categories");
+  const categorySelect = document.getElementById("category");
   categoriesContainer.innerHTML = "";
+  categorySelect.innerHTML = "";
+
+  //Category select options
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    categorySelect.appendChild(option);
+  });
 
   // "All" filter
   const allFilter = document.createElement("button");
