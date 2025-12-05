@@ -50,23 +50,32 @@ function displayCategories(categories) {
   });
 
   // "All" filter
-  const allFilter = document.createElement("button");
-  allFilter.textContent = "Tous";
-  allFilter.addEventListener("click", () => init());
-  categoriesContainer.appendChild(allFilter);
+  function createAllFilter() {
+    const allFilter = document.createElement("button");
+    allFilter.classList.add("category-btn");
+    allFilter.textContent = "Tous";
+    allFilter.addEventListener("click", () => init());
+    categoriesContainer.appendChild(allFilter);
+  }
+  createAllFilter();
 
-  categories.forEach((category) => {
-    const button = document.createElement("button");
-    button.textContent = category.name;
-    button.addEventListener("click", async () => {
-      const works = await loadGallery();
-      const filteredWorks = works.filter(
-        (work) => work.categoryId === category.id
-      );
-      displayWorks(filteredWorks);
+  // Category buttons
+  function createCategoryButtons() {
+    categories.forEach((category) => {
+      const button = document.createElement("button");
+      button.classList.add("category-btn");
+      button.textContent = category.name;
+      button.addEventListener("click", async () => {
+        const works = await loadGallery();
+        const filteredWorks = works.filter(
+          (work) => work.categoryId === category.id
+        );
+        displayWorks(filteredWorks);
+      });
+      categoriesContainer.appendChild(button);
     });
-    categoriesContainer.appendChild(button);
-  });
+  }
+  createCategoryButtons();
 }
 // Load and display gallery
 
