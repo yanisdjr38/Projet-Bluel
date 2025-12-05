@@ -2,23 +2,28 @@ const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
 
 // Check logged in and logout link
+function isLoggedIn() {
+  const token = localStorage.getItem("token");
+  const loginLink = document.getElementById("login-link");
 
-const token = localStorage.getItem("token");
-const loginLink = document.getElementById("login-link");
-
-if (token) {
-  document.body.classList.add("logged");
-  if (loginLink) {
-    loginLink.querySelector("li").textContent = "logout";
-    loginLink.href = "#";
-    loginLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
-      window.location.reload();
-    });
+  if (token) {
+    document.body.classList.add("logged");
+    if (loginLink) {
+      loginLink.querySelector("li").textContent = "logout";
+      loginLink.href = "#";
+      loginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        window.location.reload();
+      });
+    }
   }
 }
+
+const token = localStorage.getItem("token");
+isLoggedIn();
+
 // Load and display categories
 
 async function loadCategories() {
@@ -34,6 +39,7 @@ async function loadCategories() {
     return [];
   }
 }
+// Display categories as buttons and in select
 
 function displayCategories(categories) {
   const categoriesContainer = document.querySelector(".categories");
@@ -93,6 +99,8 @@ async function loadGallery() {
   }
 }
 
+// Display works in gallery
+
 function displayWorks(works) {
   const gallery = document.querySelector(".gallery");
   gallery.innerHTML = "";
@@ -113,16 +121,20 @@ function displayWorks(works) {
 }
 
 // modal functionality
-const modalContainer = document.querySelector(".modal-container");
-const modalTriggers = document.querySelectorAll(".modal-trigger");
-
-modalTriggers.forEach((trigger) => {
-  trigger.addEventListener("click", toggleModal);
-});
-
 function toggleModal() {
-  modalContainer.classList.toggle("active");
+  const modalContainer = document.querySelector(".modal-container");
+  const modalTriggers = document.querySelectorAll(".modal-trigger");
+
+  modalTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", toggleModal);
+  });
+
+  function toggleModal() {
+    modalContainer.classList.toggle("active");
+  }
 }
+
+toggleModal();
 
 //Modal Gallery
 
@@ -142,9 +154,10 @@ function displayModalGallery(works) {
     deleteBtn.classList.add("delete-btn");
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
     deleteBtn.dataset.id = work.id;
+
     // Delete work functionality
-    deleteBtn.addEventListener("click", (e) => {
-      const workId = e.currentTarget.dataset.id;
+    function deleteWork() {
+      const workId = deleteBtn.dataset.id;
       fetch(`${WORK_URL}/${workId}`, {
         method: "DELETE",
         headers: {
@@ -163,9 +176,8 @@ function displayModalGallery(works) {
         .catch((error) => {
           console.error("Error deleting work:", error);
         });
-    });
-    //Add work to modal gallery
-
+    }
+    deleteBtn.addEventListener("click", deleteWork);
     figure.appendChild(img);
     figure.appendChild(deleteBtn);
     modalGallery.appendChild(figure);
@@ -173,44 +185,101 @@ function displayModalGallery(works) {
 }
 
 // Modal View
+function toggleModalView() {
+  const galleryView = document.querySelector(".modal-gallery-view");
+  const addView = document.querySelector(".modal-add-view");
+  const openAddBtn = document.querySelector(".open-add-view");
+  const backToGalleryBtn = document.querySelector(".back-to-gallery");
+  // Aller sur la vue "Ajouter une photo"
+  openAddBtn.addEventListener("click", () => {
+    galleryView.classList.add("hidden");
+    addView.classList.remove("hidden");
+  });
 
-const galleryView = document.querySelector(".modal-gallery-view");
-const addView = document.querySelector(".modal-add-view");
-const openAddBtn = document.querySelector(".open-add-view");
-const backToGalleryBtn = document.querySelector(".back-to-gallery");
+  // Revenir sur la vue "Galerie"
+  backToGalleryBtn.addEventListener("click", () => {
+    addView.classList.add("hidden");
+    galleryView.classList.remove("hidden");
+  });
+}
 
-// Aller sur la vue "Ajouter une photo"
-openAddBtn.addEventListener("click", () => {
-  galleryView.classList.add("hidden");
-  addView.classList.remove("hidden");
-});
-
-// Revenir sur la vue "Galerie"
-backToGalleryBtn.addEventListener("click", () => {
-  addView.classList.add("hidden");
-  galleryView.classList.remove("hidden");
-});
+toggleModalView();
 
 // Fonction Preview Image
+function previewImage() {
+  const fileInput = document.getElementById("photo");
+  const preview = document.querySelector(".preview");
+  const icon = document.querySelector(".upload-icon");
+  const btn = document.querySelector(".upload-btn");
+  const instructions = document.querySelector(".photo-instructions");
 
-const fileInput = document.getElementById("photo");
-const preview = document.querySelector(".preview");
-const icon = document.querySelector(".upload-icon");
-const btn = document.querySelector(".upload-btn");
-const instructions = document.querySelector(".photo-instructions");
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
 
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
+    if (!file) return;
 
-  if (!file) return;
+    preview.innerHTML = `<img src="${URL.createObjectURL(
+      file
+    )}" alt="preview">`;
+    preview.style.display = "flex";
 
-  preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="preview">`;
-  preview.style.display = "flex";
+    icon.style.display = "none";
+    btn.style.display = "none";
+    instructions.style.display = "none";
+  });
+}
 
-  icon.style.display = "none";
-  btn.style.display = "none";
-  instructions.style.display = "none";
-});
+previewImage();
+
+// Add Work Functionality
+
+function addWork() {
+  const addWorkForm = document.getElementById("add-photo-form");
+  if (!addWorkForm) return;
+
+  addWorkForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("title").value.trim();
+    const category = Number(document.getElementById("category").value);
+    const imageFile = document.getElementById("photo").files[0];
+
+    if (!title || !category || !imageFile) {
+      console.error("Please provide title, category and image");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("image", imageFile);
+
+    try {
+      const response = await fetch(WORK_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Refresh galleries
+      const works = await loadGallery();
+      displayWorks(works);
+      displayModalGallery(works);
+      // Reset form
+      addWorkForm.reset();
+      document.querySelector(".preview").innerHTML = "";
+    } catch (error) {
+      console.error("Error adding work:", error);
+    }
+  });
+}
+
+addWork();
 
 // Initialize
 async function init() {
