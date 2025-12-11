@@ -121,20 +121,18 @@ function displayWorks(works) {
 }
 
 // modal functionality
-function toggleModal() {
+function initModal() {
   const modalContainer = document.querySelector(".modal-container");
   const modalTriggers = document.querySelectorAll(".modal-trigger");
 
   modalTriggers.forEach((trigger) => {
-    trigger.addEventListener("click", toggleModal);
+    trigger.addEventListener("click", () => {
+      modalContainer.classList.toggle("active");
+    });
   });
-
-  function toggleModal() {
-    modalContainer.classList.toggle("active");
-  }
 }
 
-toggleModal();
+initModal();
 
 //Modal Gallery
 
@@ -232,26 +230,33 @@ function previewImage() {
 previewImage();
 
 // Add Work Functionality
-
 function addWork() {
   const addWorkForm = document.getElementById("add-photo-form");
   if (!addWorkForm) return;
 
   addWorkForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const title = document.getElementById("title").value.trim();
-    const category = Number(document.getElementById("category").value);
-    const imageFile = document.getElementById("photo").files[0];
 
-    if (!title || !category || !imageFile) {
-      console.error("Please provide title, category and image");
+    const rawFormData = new FormData(e.currentTarget);
+
+    const title = rawFormData.get("title")?.trim();
+    const category = rawFormData.get("category");
+    const file = rawFormData.get("photo");
+
+    if (!title || !category || !file) {
+      alert("Veuillez remplir tous les champs.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("category", category);
-    formData.append("image", imageFile);
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("S'il vous plaît, ajoutez une image au format JPG ou PNG.");
+      return;
+    }
+
+    const apiFormData = new FormData();
+    apiFormData.append("title", title);
+    apiFormData.append("category", Number(category));
+    apiFormData.append("image", file);
 
     try {
       const response = await fetch(WORK_URL, {
@@ -259,24 +264,40 @@ function addWork() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+        body: apiFormData,
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Refresh galleries
-      const works = await loadGallery();
-      displayWorks(works);
-      displayModalGallery(works);
       // Reset form
-      addWorkForm.reset();
-      document.querySelector(".preview").innerHTML = "";
+      await refreshGalleries();
+      resetAddWorkForm();
     } catch (error) {
       console.error("Error adding work:", error);
     }
   });
+}
+
+// refresh galleries after adding a work
+async function refreshGalleries() {
+  const works = await loadGallery();
+  displayWorks(works);
+  displayModalGallery(works);
+}
+
+// reset add work form
+function resetAddWorkForm() {
+  const addWorkForm = document.getElementById("add-photo-form");
+  addWorkForm.reset();
+
+  addWorkForm.reset();
+
+  const preview = document.querySelector(".preview");
+  if (preview) {
+    preview.innerHTML = "";
+  }
 }
 
 addWork();
