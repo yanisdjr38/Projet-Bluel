@@ -49,6 +49,13 @@ function displayCategories(categories) {
   categorySelect.innerHTML = "";
 
   //Category select options
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = "";
+  option.disabled = true;
+  option.selected = true;
+  categorySelect.appendChild(option);
+
   categories.forEach((category) => {
     const option = document.createElement("option");
     option.value = category.id;
