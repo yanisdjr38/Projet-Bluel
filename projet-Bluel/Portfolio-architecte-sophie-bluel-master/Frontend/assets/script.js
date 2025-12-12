@@ -57,12 +57,25 @@ function displayCategories(categories) {
   });
 }
 
+// rend les boutons actifs
+
+function setActiveButton(activeButton) {
+  document.querySelectorAll(".categories button").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  activeButton.classList.add("active");
+}
+
 // "All" filter
 function createAllFilter() {
   const allFilter = document.createElement("button");
-  allFilter.classList.add("category-btn");
+  allFilter.classList.add("category-btn", "active");
   allFilter.textContent = "Tous";
-  allFilter.addEventListener("click", () => init());
+
+  allFilter.addEventListener("click", () => {
+    setActiveButton(allFilter);
+    init();
+  });
   categoriesContainer.appendChild(allFilter);
 }
 
@@ -74,6 +87,8 @@ function createCategoryButtons(categories) {
     button.textContent = category.name;
 
     button.addEventListener("click", async () => {
+      setActiveButton(button);
+
       const works = await loadGallery();
       const filteredWorks = works.filter(
         (work) => work.categoryId === category.id
@@ -170,8 +185,11 @@ function displayModalGallery(works) {
   });
 }
 // Delete work function
-function deleteWork() {
+function deleteWork(e) {
+  const deleteBtn = e.currentTarget;
+  const figure = deleteBtn.parentElement;
   const workId = deleteBtn.dataset.id;
+
   fetch(`${WORK_URL}/${workId}`, {
     method: "DELETE",
     headers: {

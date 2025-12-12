@@ -366,11 +366,6 @@ footer nav ul {
   color: #fffef8;
 }
 
-.category-btn:focus {
-  background-color: var(--color-primary);
-  color: #fffef8;
-}
-
 /* =========================
    LOGIN PAGE
    ========================= */
