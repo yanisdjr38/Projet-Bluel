@@ -48,7 +48,6 @@ function displayCategories(categories) {
 
   categorySelect.innerHTML = "";
 
-  //Category select options
   const option = document.createElement("option");
   option.value = "";
   option.textContent = "";
