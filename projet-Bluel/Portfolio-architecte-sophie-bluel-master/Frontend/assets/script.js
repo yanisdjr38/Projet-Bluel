@@ -1,5 +1,6 @@
 const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
+const categoriesContainer = document.querySelector(".categories");
 
 // Check logged in and logout link
 function isLoggedIn() {
@@ -42,9 +43,9 @@ async function loadCategories() {
 // Display categories as buttons and in select
 
 function displayCategories(categories) {
-  const categoriesContainer = document.querySelector(".categories");
   const categorySelect = document.getElementById("category");
-  categoriesContainer.innerHTML = "";
+  if (!categorySelect) return;
+
   categorySelect.innerHTML = "";
 
   //Category select options
@@ -54,35 +55,42 @@ function displayCategories(categories) {
     option.textContent = category.name;
     categorySelect.appendChild(option);
   });
-
-  // "All" filter
-  function createAllFilter() {
-    const allFilter = document.createElement("button");
-    allFilter.classList.add("category-btn");
-    allFilter.textContent = "Tous";
-    allFilter.addEventListener("click", () => init());
-    categoriesContainer.appendChild(allFilter);
-  }
-  createAllFilter();
-
-  // Category buttons
-  function createCategoryButtons() {
-    categories.forEach((category) => {
-      const button = document.createElement("button");
-      button.classList.add("category-btn");
-      button.textContent = category.name;
-      button.addEventListener("click", async () => {
-        const works = await loadGallery();
-        const filteredWorks = works.filter(
-          (work) => work.categoryId === category.id
-        );
-        displayWorks(filteredWorks);
-      });
-      categoriesContainer.appendChild(button);
-    });
-  }
-  createCategoryButtons();
 }
+
+// "All" filter
+function createAllFilter() {
+  const allFilter = document.createElement("button");
+  allFilter.classList.add("category-btn");
+  allFilter.textContent = "Tous";
+  allFilter.addEventListener("click", () => init());
+  categoriesContainer.appendChild(allFilter);
+}
+
+// Category buttons
+function createCategoryButtons(categories) {
+  categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.classList.add("category-btn");
+    button.textContent = category.name;
+
+    button.addEventListener("click", async () => {
+      const works = await loadGallery();
+      const filteredWorks = works.filter(
+        (work) => work.categoryId === category.id
+      );
+      displayWorks(filteredWorks);
+    });
+    categoriesContainer.appendChild(button);
+  });
+}
+
+//affichage des boutons de catégories
+function renderFilters(categories) {
+  categoriesContainer.innerHTML = "";
+  createAllFilter();
+  createCategoryButtons(categories);
+}
+
 // Load and display gallery
 
 async function loadGallery() {
@@ -154,34 +162,35 @@ function displayModalGallery(works) {
     deleteBtn.dataset.id = work.id;
 
     // Delete work functionality
-    function deleteWork() {
-      const workId = deleteBtn.dataset.id;
-      fetch(`${WORK_URL}/${workId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          // Remove the figure from the modal gallery
-          figure.remove();
-          // Also refresh the main gallery
-          init();
-        })
-        .catch((error) => {
-          console.error("Error deleting work:", error);
-        });
-    }
+
     deleteBtn.addEventListener("click", deleteWork);
     figure.appendChild(img);
     figure.appendChild(deleteBtn);
     modalGallery.appendChild(figure);
   });
 }
-
+// Delete work function
+function deleteWork() {
+  const workId = deleteBtn.dataset.id;
+  fetch(`${WORK_URL}/${workId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // Remove the figure from the modal gallery
+      figure.remove();
+      // Also refresh the main gallery
+      init();
+    })
+    .catch((error) => {
+      console.error("Error deleting work:", error);
+    });
+}
 // Modal View
 function toggleModalView() {
   const galleryView = document.querySelector(".modal-gallery-view");
@@ -307,8 +316,10 @@ async function init() {
   const works = await loadGallery();
   displayWorks(works);
   displayModalGallery(works);
+
   const categories = await loadCategories();
   displayCategories(categories);
+  renderFilters(categories);
 }
 
 init();
