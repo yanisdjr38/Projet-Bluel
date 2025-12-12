@@ -760,7 +760,7 @@ button.upload-btn:hover {
   width: 40%;
   height: 36px;
   border-radius: 60px;
-  background-color: var(--color-primary);
+  background-color: #b3b3b3;
   color: var(--color-background);
   border: none;
   font-family: "Syne";
@@ -771,6 +771,10 @@ button.upload-btn:hover {
 
 .validate-add:hover {
   background-color: var(--color-secondary);
+}
+.validate-add.enabled {
+  background-color: var(--color-primary);
+  cursor: pointer;
 }
 
 /* =========================

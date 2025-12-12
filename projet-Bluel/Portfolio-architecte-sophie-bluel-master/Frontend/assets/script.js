@@ -262,10 +262,35 @@ function previewImage() {
 
 previewImage();
 
+//Toggle Validate Button
+function toggleSubmitButton() {
+  const titleInput = document.getElementById("title").value.trim();
+  const categorySelect = document.getElementById("category").value;
+  const fileInput = document.getElementById("photo").files.length > 0;
+  const submitBtn = document.querySelector(".validate-add");
+
+  if (titleInput && categorySelect && fileInput && submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.classList.add("enabled");
+  } else {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove("enabled");
+  }
+}
+
 // Add Work Functionality
 function addWork() {
   const addWorkForm = document.getElementById("add-photo-form");
   if (!addWorkForm) return;
+
+  const titleInput = document.getElementById("title");
+  const categorySelect = document.getElementById("category");
+  const fileInput = document.getElementById("photo");
+
+  [titleInput, categorySelect, fileInput].forEach((input) => {
+    input.addEventListener("input", toggleSubmitButton);
+    input.addEventListener("change", toggleSubmitButton);
+  });
 
   addWorkForm.addEventListener("submit", async (e) => {
     e.preventDefault();
