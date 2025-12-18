@@ -1,10 +1,14 @@
+//====Configuration et sélecteurs globaux====//
+
 const WORK_URL = "http://localhost:5678/api/works";
 const CATEGORY_URL = "http://localhost:5678/api/categories";
 const categoriesContainer = document.querySelector(".categories");
+const token = localStorage.getItem("token");
 
-// Check logged in and logout link
+//====Authentification / état connecté====//
+
+// Vérifier le lien de connexion et de déconnexion
 function isLoggedIn() {
-  const token = localStorage.getItem("token");
   const loginLink = document.getElementById("login-link");
 
   if (token) {
@@ -22,10 +26,27 @@ function isLoggedIn() {
   }
 }
 
-const token = localStorage.getItem("token");
 isLoggedIn();
 
-// Load and display categories
+//====API – Récupération des données====//
+
+// Charger et afficher la galerie
+
+async function loadGallery() {
+  try {
+    const response = await fetch(WORK_URL);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const works = await response.json();
+    return works;
+  } catch (error) {
+    console.error("Error fetching works:", error);
+    return [];
+  }
+}
+
+// Charger et afficher les catégories
 
 async function loadCategories() {
   try {
@@ -40,7 +61,33 @@ async function loadCategories() {
     return [];
   }
 }
-// Display categories as buttons and in select
+
+//====Galerie principale (DOM)====//
+
+// Afficher les œuvres dans la galerie
+
+function displayWorks(works) {
+  const gallery = document.querySelector(".gallery");
+  gallery.innerHTML = "";
+
+  works.forEach((work) => {
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
+    img.src = work.imageUrl;
+    img.alt = work.title;
+
+    const caption = document.createElement("figcaption");
+    caption.textContent = work.title;
+
+    figure.appendChild(img);
+    figure.appendChild(caption);
+    gallery.appendChild(figure);
+  });
+}
+
+//====Filtres / Catégories====//
+
+// Afficher les catégories sous forme de boutons et dans une liste déroulante
 
 function displayCategories(categories) {
   const categorySelect = document.getElementById("category");
@@ -72,7 +119,7 @@ function setActiveButton(activeButton) {
   activeButton.classList.add("active");
 }
 
-// "All" filter
+// "Tous" filter
 function createAllFilter() {
   const allFilter = document.createElement("button");
   allFilter.classList.add("category-btn", "active");
@@ -85,7 +132,7 @@ function createAllFilter() {
   categoriesContainer.appendChild(allFilter);
 }
 
-// Category buttons
+// Boutons de catégories
 function createCategoryButtons(categories) {
   categories.forEach((category) => {
     const button = document.createElement("button");
@@ -112,44 +159,9 @@ function renderFilters(categories) {
   createCategoryButtons(categories);
 }
 
-// Load and display gallery
+//====Modale – Ouverture/Fermeture + Navigation entre vues====//
 
-async function loadGallery() {
-  try {
-    const response = await fetch(WORK_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const works = await response.json();
-    return works;
-  } catch (error) {
-    console.error("Error fetching works:", error);
-    return [];
-  }
-}
-
-// Display works in gallery
-
-function displayWorks(works) {
-  const gallery = document.querySelector(".gallery");
-  gallery.innerHTML = "";
-
-  works.forEach((work) => {
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    img.src = work.imageUrl;
-    img.alt = work.title;
-
-    const caption = document.createElement("figcaption");
-    caption.textContent = work.title;
-
-    figure.appendChild(img);
-    figure.appendChild(caption);
-    gallery.appendChild(figure);
-  });
-}
-
-// modal functionality
+// modal fonctionnalité
 function initModal() {
   const modalContainer = document.querySelector(".modal-container");
   const modalTriggers = document.querySelectorAll(".modal-trigger");
@@ -163,59 +175,7 @@ function initModal() {
 
 initModal();
 
-//Modal Gallery
-
-function displayModalGallery(works) {
-  const modalGallery = document.querySelector(".modal-gallery");
-  modalGallery.innerHTML = "";
-
-  works.forEach((work) => {
-    const figure = document.createElement("figure");
-    figure.classList.add("modal-figure");
-
-    const img = document.createElement("img");
-    img.src = work.imageUrl;
-    img.alt = work.title;
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-btn");
-    deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    deleteBtn.dataset.id = work.id;
-
-    // Delete work functionality
-
-    deleteBtn.addEventListener("click", deleteWork);
-    figure.appendChild(img);
-    figure.appendChild(deleteBtn);
-    modalGallery.appendChild(figure);
-  });
-}
-// Delete work function
-function deleteWork(e) {
-  const deleteBtn = e.currentTarget;
-  const figure = deleteBtn.parentElement;
-  const workId = deleteBtn.dataset.id;
-
-  fetch(`${WORK_URL}/${workId}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      // Remove the figure from the modal gallery
-      figure.remove();
-      // Also refresh the main gallery
-      init();
-    })
-    .catch((error) => {
-      console.error("Error deleting work:", error);
-    });
-}
-// Modal View
+// Vue modale
 function toggleModalView() {
   const galleryView = document.querySelector(".modal-gallery-view");
   const addView = document.querySelector(".modal-add-view");
@@ -236,7 +196,64 @@ function toggleModalView() {
 
 toggleModalView();
 
-// Fonction Preview Image
+//====Modale – Galerie (DOM) + suppression d'œuvre====//
+
+//Modal Galerie
+
+function displayModalGallery(works) {
+  const modalGallery = document.querySelector(".modal-gallery");
+  modalGallery.innerHTML = "";
+
+  works.forEach((work) => {
+    const figure = document.createElement("figure");
+    figure.classList.add("modal-figure");
+
+    const img = document.createElement("img");
+    img.src = work.imageUrl;
+    img.alt = work.title;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    deleteBtn.dataset.id = work.id;
+
+    // Supprimer une œuvre
+
+    deleteBtn.addEventListener("click", deleteWork);
+    figure.appendChild(img);
+    figure.appendChild(deleteBtn);
+    modalGallery.appendChild(figure);
+  });
+}
+// Fonction de suppression d'œuvre
+function deleteWork(e) {
+  const deleteBtn = e.currentTarget;
+  const figure = deleteBtn.parentElement;
+  const workId = deleteBtn.dataset.id;
+
+  fetch(`${WORK_URL}/${workId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // Supprimer la figure de la galerie modale
+      figure.remove();
+      // Rafraîchir également la galerie principale
+      init();
+    })
+    .catch((error) => {
+      console.error("Error deleting work:", error);
+    });
+}
+
+//====Formulaire d’ajout (preview + bouton + envoi)====//
+
+// Fonction Aperçu Image
 function previewImage() {
   const fileInput = document.getElementById("photo");
   const preview = document.querySelector(".preview");
@@ -262,7 +279,7 @@ function previewImage() {
 
 previewImage();
 
-//Toggle Validate Button
+//Toggle Bouton Valider
 function toggleSubmitButton() {
   const titleInput = document.getElementById("title").value.trim();
   const categorySelect = document.getElementById("category").value;
@@ -278,7 +295,7 @@ function toggleSubmitButton() {
   }
 }
 
-// Add Work Functionality
+// Ajouter une œuvre
 function addWork() {
   const addWorkForm = document.getElementById("add-photo-form");
   if (!addWorkForm) return;
@@ -329,7 +346,7 @@ function addWork() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Reset form
+      // Réinitialiser le formulaire
       await refreshGalleries();
       resetAddWorkForm();
     } catch (error) {
@@ -338,18 +355,16 @@ function addWork() {
   });
 }
 
-// refresh galleries after adding a work
+// rafraîchir les galeries après l'ajout d'une œuvre
 async function refreshGalleries() {
   const works = await loadGallery();
   displayWorks(works);
   displayModalGallery(works);
 }
 
-// reset add work form
+// réinitialiser le formulaire d'ajout d'œuvre
 function resetAddWorkForm() {
   const addWorkForm = document.getElementById("add-photo-form");
-  addWorkForm.reset();
-
   addWorkForm.reset();
 
   const preview = document.querySelector(".preview");
@@ -359,6 +374,8 @@ function resetAddWorkForm() {
 }
 
 addWork();
+
+//====Initialisation (bootstrap)====//
 
 // Initialize
 async function init() {
