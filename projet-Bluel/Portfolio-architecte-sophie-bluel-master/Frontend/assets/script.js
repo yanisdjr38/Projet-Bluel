@@ -327,6 +327,10 @@ function addWork() {
       alert("S'il vous plaît, ajoutez une image au format JPG ou PNG.");
       return;
     }
+    if (file.size > 4 * 1024 * 1024) {
+      alert("La taille de l'image ne doit pas dépasser 4 Mo.");
+      return;
+    }
 
     const apiFormData = new FormData();
     apiFormData.append("title", title);
