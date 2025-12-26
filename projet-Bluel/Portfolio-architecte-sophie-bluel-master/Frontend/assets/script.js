@@ -371,9 +371,28 @@ function resetAddWorkForm() {
   const addWorkForm = document.getElementById("add-photo-form");
   addWorkForm.reset();
 
+  // Reset preview
   const preview = document.querySelector(".preview");
-  if (preview) {
-    preview.innerHTML = "";
+  if (preview) preview.innerHTML = "";
+
+  // Reset selection de la catégorie
+  const categorySelect = document.getElementById("category");
+  if (categorySelect) categorySelect.selectedIndex = 0;
+
+  // Reset affichage des icônes
+  const icon = document.querySelector(".upload-icon");
+  const btn = document.querySelector(".upload-btn");
+  const instructions = document.querySelector(".photo-instructions");
+
+  if (icon) icon.style.display = "block";
+  if (btn) btn.style.display = "block";
+  if (instructions) instructions.style.display = "block";
+
+  // Reset bouton de soumission
+  const submitBtn = document.querySelector(".validate-add");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove("enabled");
   }
 }
 
