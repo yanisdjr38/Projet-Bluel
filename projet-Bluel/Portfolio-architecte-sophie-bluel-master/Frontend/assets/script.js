@@ -217,7 +217,7 @@ function displayModalGallery(works) {
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
     deleteBtn.dataset.id = work.id;
 
-    // Supprimer une œuvre
+    // Ajouter l'événement de suppression
 
     deleteBtn.addEventListener("click", deleteWork);
     figure.appendChild(img);
