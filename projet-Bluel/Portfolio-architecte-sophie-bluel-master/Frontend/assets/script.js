@@ -244,7 +244,7 @@ function deleteWork(e) {
       // Supprimer la figure de la galerie modale
       figure.remove();
       // Rafraîchir également la galerie principale
-      init();
+      refreshGalleries();
     })
     .catch((error) => {
       console.error("Error deleting work:", error);
