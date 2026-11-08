@@ -1,7 +1,7 @@
 //====Configuration et sélecteurs globaux====//
 
-const WORK_URL = "http://localhost:5678/api/works";
-const CATEGORY_URL = "http://localhost:5678/api/categories";
+const WORK_URL = `${API_BASE_URL}/api/works`;
+const CATEGORY_URL = `${API_BASE_URL}/api/categories`;
 const categoriesContainer = document.querySelector(".categories");
 const token = localStorage.getItem("token");
 
